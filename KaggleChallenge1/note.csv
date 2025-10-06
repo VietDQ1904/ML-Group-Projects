@@ -1,4 +1,10 @@
 Ngày, Thử nghiệm, Điểm số Kaggle thực tế
-5/10/2025 9h26, Thêm Title + dùng Random Forest Classifier, 0.73205
-5/10/2025 10h32, Dùng SVC, 0.78468
+5/10/2025 10h32, Dùng SVC + không thêm feature, 0.78468
+6/10/2025 1h45, Thêm Cabin + Dùng XGBoost, 0.77511
+6/10/2025 2h06, Thêm Title + dùng Logistics Regression, 0.73923
+6/10/2025 2h15, Thêm Title + Cabin + dùng Logistics Regression, 0.75837
+6/10/2025 2h23, Thêm Title + Cabin + dùng SVC, 0.77272
+6/10/2025 2h32, Thêm Title + Cabin + dùng Random Forest, 0.74880
+
+
 
