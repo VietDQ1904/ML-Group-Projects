@@ -11,9 +11,10 @@ Ngày, Thử nghiệm, Điểm số Kaggle thực tế
 6/10/2025 5h26, Thêm Title + Cabin + Family_Size + Married + dùng RandomForest, 0.77511
 6/10/2025 10h20, Thêm Title + Cabin + Family_Size + Married + Family_Survival + dùng SVC, 0.77511
 6/10/2025 10h26, Thêm Title + Cabin + Family_Size + Married + Family_Survival + dùng RandomForest, 0.76315
-6/10/2025 10h45, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + dùng XGBoost, 0.74641
-6/10/2025 11h00, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + dùng SVC, 0.76076
-6/10/2025 11h06, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + dùng Logistic Regression, 0.75837
-6/10/2025 11h06, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + dùng RandomForest, 0.76315
+6/10/2025 10h45, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + target encoding + dùng XGBoost, 0.74641
+6/10/2025 11h00, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + target encoding + dùng SVC, 0.76076
+6/10/2025 11h06, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + target encoding + dùng Logistic Regression, 0.75837
+6/10/2025 11h10, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + target encoding + dùng RandomForest, 0.76315
+7/10/2025 9h25, Thêm Title + Cabin + Family_Size + Married + Family_Survival + Ticket_Counts + dùng XGBoost, 0.72966
 
 
