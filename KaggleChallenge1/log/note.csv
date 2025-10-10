@@ -1,0 +1,10 @@
+Ngày, Thử nghiệm, Điểm số Kaggle thực tế
+5/10/2025 10h32, Dùng SVC + không thêm feature, 0.78468
+6/10/2025 1h45, Thêm Cabin + Dùng XGBoost, 0.77511
+6/10/2025 2h06, Thêm Title + dùng Logistic Regression, 0.73923
+6/10/2025 2h15, Thêm Title + Cabin + dùng Logistic Regression, 0.75837
+6/10/2025 2h23, Thêm Title + Cabin + dùng SVC, 0.77272
+6/10/2025 2h32, Thêm Title + Cabin + dùng Random Forest, 0.74880
+6/10/2025 5h11, Thêm Title + Cabin + Family_Size + dùng SVC, 0.77511
+6/10/2025 5h20, Thêm Title + Cabin + Family_Size + dùng Logistic Regression, 0.75598
+6/10/2025 5h25, Thêm Title + Cabin + Family_Size + Married + dùng SVC, 0.77511
