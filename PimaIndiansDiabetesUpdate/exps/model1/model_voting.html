@@ -7537,25 +7537,21 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [131]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-
-<span class="c1"># preprocessing</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OneHotEncoder</span><span class="p">,</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">OrdinalEncoder</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span><span class="p">,</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">uniform</span>
 
 <span class="c1"># model selection</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">KFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">RandomizedSearchCV</span>
 
 <span class="c1"># algorithms</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span><span class="p">,</span> <span class="n">StackingClassifier</span><span class="p">,</span> <span class="n">VotingClassifier</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.discriminant_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
@@ -7590,12 +7586,13 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [132]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
 <span class="n">parameters</span><span class="p">[</span><span class="s2">"k_fold"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">parameters</span><span class="p">[</span><span class="s2">"n_random_search"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
 </pre></div>
 </div>
 </div>
@@ -7617,7 +7614,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [133]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"../exps/data/X_train_scaled.npy"</span><span class="p">))</span>
@@ -7650,7 +7647,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [134]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -7664,7 +7661,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[134]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7690,8 +7687,6 @@ a.anchor-link {
 <th>3</th>
 <th>4</th>
 <th>5</th>
-<th>6</th>
-<th>7</th>
 </tr>
 </thead>
 <tbody>
@@ -7703,8 +7698,6 @@ a.anchor-link {
 <td>-0.855792</td>
 <td>0.060909</td>
 <td>-0.937699</td>
-<td>0.981987</td>
-<td>0.744998</td>
 </tr>
 <tr>
 <th>1</th>
@@ -7714,8 +7707,6 @@ a.anchor-link {
 <td>0.219850</td>
 <td>0.060909</td>
 <td>0.923014</td>
-<td>1.198923</td>
-<td>0.941191</td>
 </tr>
 <tr>
 <th>2</th>
@@ -7725,8 +7716,6 @@ a.anchor-link {
 <td>-0.855792</td>
 <td>1.192643</td>
 <td>0.662844</td>
-<td>0.934131</td>
-<td>0.817188</td>
 </tr>
 <tr>
 <th>3</th>
@@ -7736,8 +7725,6 @@ a.anchor-link {
 <td>0.951417</td>
 <td>1.319553</td>
 <td>0.917181</td>
-<td>0.363050</td>
-<td>0.744998</td>
 </tr>
 <tr>
 <th>4</th>
@@ -7747,8 +7734,6 @@ a.anchor-link {
 <td>-0.381319</td>
 <td>-0.428882</td>
 <td>0.200399</td>
-<td>1.270320</td>
-<td>0.725622</td>
 </tr>
 </tbody>
 </table>
@@ -7762,7 +7747,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [135]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">y_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -7776,7 +7761,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[135]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>0    1
 1    0
@@ -7793,7 +7778,7 @@ Name: 0, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [136]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">X_test</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -7807,7 +7792,7 @@ Name: 0, dtype: int64</pre>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[136]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7833,8 +7818,6 @@ Name: 0, dtype: int64</pre>
 <th>3</th>
 <th>4</th>
 <th>5</th>
-<th>6</th>
-<th>7</th>
 </tr>
 </thead>
 <tbody>
@@ -7846,8 +7829,6 @@ Name: 0, dtype: int64</pre>
 <td>0.802700</td>
 <td>2.136763</td>
 <td>-0.030104</td>
-<td>-1.029728</td>
-<td>0.570884</td>
 </tr>
 <tr>
 <th>1</th>
@@ -7857,8 +7838,6 @@ Name: 0, dtype: int64</pre>
 <td>0.309908</td>
 <td>-0.780422</td>
 <td>-0.825212</td>
-<td>-1.029728</td>
-<td>-1.543753</td>
 </tr>
 <tr>
 <th>2</th>
@@ -7868,8 +7847,6 @@ Name: 0, dtype: int64</pre>
 <td>-1.264453</td>
 <td>-0.601948</td>
 <td>-0.194678</td>
-<td>1.439816</td>
-<td>0.213881</td>
 </tr>
 <tr>
 <th>3</th>
@@ -7879,8 +7856,6 @@ Name: 0, dtype: int64</pre>
 <td>0.565790</td>
 <td>0.215262</td>
 <td>-0.849994</td>
-<td>-1.029728</td>
-<td>-1.543753</td>
 </tr>
 <tr>
 <th>4</th>
@@ -7890,8 +7865,6 @@ Name: 0, dtype: int64</pre>
 <td>0.482751</td>
 <td>0.365553</td>
 <td>-0.904107</td>
-<td>-1.029728</td>
-<td>-1.543753</td>
 </tr>
 </tbody>
 </table>
@@ -7905,7 +7878,7 @@ Name: 0, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [137]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">y_test</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -7919,7 +7892,7 @@ Name: 0, dtype: int64</pre>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[137]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>0    1
 1    1
@@ -7947,10 +7920,59 @@ Name: 0, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [138]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"k_fold"</span><span class="p">],</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"k_fold"</span><span class="p">],</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=bd9d5110">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">param_distributions</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">"Logistic Regression"</span><span class="p">]</span> <span class="o">=</span>  <span class="p">{</span>
+        <span class="s2">"C"</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>        
+        <span class="s2">"penalty"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"l2"</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="s2">"solver"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"lbfgs"</span><span class="p">,</span> <span class="s2">"saga"</span><span class="p">],</span>
+        <span class="s2">"max_iter"</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">"Random Forest"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"n_estimators"</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+        <span class="s2">"max_depth"</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">],</span>
+        <span class="s2">"min_samples_split"</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+        <span class="s2">"min_samples_leaf"</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="s2">"max_features"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"sqrt"</span><span class="p">,</span> <span class="s2">"log2"</span><span class="p">],</span>
+        <span class="s2">"bootstrap"</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+    <span class="p">}</span>
+
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">"SVC"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"C"</span><span class="p">:</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="s2">"gamma"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"scale"</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">],</span>
+        <span class="s2">"kernel"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"rbf"</span><span class="p">,</span> <span class="s2">"sigmoid"</span><span class="p">],</span>
+        <span class="s2">"probability"</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">],</span>
+    <span class="p">}</span>
+
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">"K-Neighbours"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"n_neighbors"</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+        <span class="s2">"weights"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"uniform"</span><span class="p">,</span> <span class="s2">"distance"</span><span class="p">],</span>
+        <span class="s2">"p"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">}</span>
+
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">"Decision Tree"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"max_depth"</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="s2">"min_samples_split"</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+        <span class="s2">"min_samples_leaf"</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+        <span class="s2">"criterion"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"gini"</span><span class="p">,</span> <span class="s2">"entropy"</span><span class="p">,</span> <span class="s2">"log_loss"</span><span class="p">],</span>
+    <span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -7972,34 +7994,19 @@ Name: 0, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [139]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">models</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">models</span><span class="p">[</span><span class="s2">"Logistic Regression"</span><span class="p">]</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">class_weight</span><span class="o">=</span><span class="s2">"balanced"</span><span class="p">,</span> 
-                                                  <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                                                  <span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">])</span>
+<span class="n">models</span><span class="p">[</span><span class="s2">"Logistic Regression"</span><span class="p">]</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">])</span>
                                 
-<span class="n">models</span><span class="p">[</span><span class="s2">"Random Forest"</span><span class="p">]</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span>
-        <span class="n">class_weight</span><span class="o">=</span><span class="s2">"balanced"</span><span class="p">,</span> 
-        <span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">],</span> 
-        <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> 
-        <span class="n">max_depth</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-        <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-        <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">models</span><span class="p">[</span><span class="s2">"Random Forest"</span><span class="p">]</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">])</span>
 
-<span class="n">models</span><span class="p">[</span><span class="s2">"SVC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span>
-        <span class="n">kernel</span><span class="o">=</span><span class="s1">'rbf'</span><span class="p">,</span>         
-        <span class="n">class_weight</span><span class="o">=</span><span class="s1">'balanced'</span><span class="p">,</span> 
-        <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">]</span>
-    <span class="p">)</span>
+<span class="n">models</span><span class="p">[</span><span class="s2">"SVC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">])</span>
 
-<span class="n">models</span><span class="p">[</span><span class="s2">"K-Neighbours"</span><span class="p">]</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">'distance'</span><span class="p">)</span>
+<span class="n">models</span><span class="p">[</span><span class="s2">"K-Neighbours"</span><span class="p">]</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
 
-<span class="n">models</span><span class="p">[</span><span class="s2">"Decision Tree"</span><span class="p">]</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-                                                 <span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">],</span>
-                                                 <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">models</span><span class="p">[</span><span class="s2">"Decision Tree"</span><span class="p">]</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8021,40 +8028,29 @@ Name: 0, dtype: int64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [140]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">{</span><span class="s1">'accuracy'</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">'f1'</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">'roc_auc'</span><span class="p">:</span> <span class="p">[]}</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
-
-<span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">val_index</span> <span class="ow">in</span> <span class="n">skf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
-    <span class="n">X_train_fold</span><span class="p">,</span> <span class="n">X_val_fold</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">val_index</span><span class="p">]</span>
-    <span class="n">y_train_fold</span><span class="p">,</span> <span class="n">y_val_fold</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">val_index</span><span class="p">]</span>
-
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_fold</span><span class="p">,</span> <span class="n">y_train_fold</span><span class="p">)</span>
-
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_val_fold</span><span class="p">)</span>    
-        <span class="n">y_prob</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_val_fold</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
-
-        <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_val_fold</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-        <span class="n">f1</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_val_fold</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-        <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_val_fold</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
-
-        <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'accuracy'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
-        <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'f1'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-        <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'roc_auc'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+<span class="n">best_models</span> <span class="o">=</span> <span class="p">{}</span>
 
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">acc_mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'accuracy'</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'accuracy'</span><span class="p">])</span>
-    <span class="n">f1_mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'f1'</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'f1'</span><span class="p">])</span>
-    <span class="n">roc_auc_mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'roc_auc'</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">'roc_auc'</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> Average Results:"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Accuracy: </span><span class="si">{</span><span class="n">acc_mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  F1 Score: </span><span class="si">{</span><span class="n">f1_mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  ROC AUC:  </span><span class="si">{</span><span class="n">roc_auc_mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">model_random_search</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span>
+        <span class="n">estimator</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">param_distributions</span><span class="o">=</span><span class="n">param_distributions</span><span class="p">[</span><span class="n">name</span><span class="p">],</span>
+        <span class="n">n_iter</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"n_random_search"</span><span class="p">],</span>
+        <span class="n">scoring</span><span class="o">=</span><span class="s2">"accuracy"</span><span class="p">,</span>
+        <span class="n">cv</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"k_fold"</span><span class="p">],</span>
+        <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">"random_state"</span><span class="p">],</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+
+    <span class="n">model_random_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="n">best_models</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_random_search</span><span class="o">.</span><span class="n">best_estimator_</span>
+
     
 </pre></div>
 </div>
@@ -8068,33 +8064,39 @@ Name: 0, dtype: int64</pre>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>--------------------------
-Logistic Regression Average Results:
-  Accuracy: 0.7468
-  F1 Score: 0.6672
-  ROC AUC:  0.8381
-------------------------------
-Random Forest Average Results:
-  Accuracy: 0.7652
-  F1 Score: 0.6846
-  ROC AUC:  0.8325
-------------------------------
-SVC Average Results:
-  Accuracy: 0.7469
-  F1 Score: 0.6771
-  ROC AUC:  0.8245
-------------------------------
-K-Neighbours Average Results:
-  Accuracy: 0.7392
-  F1 Score: 0.6075
-  ROC AUC:  0.7666
-------------------------------
-Decision Tree Average Results:
-  Accuracy: 0.7101
-  F1 Score: 0.5481
-  ROC AUC:  0.7302
-------------------------------
+<pre>Fitting 10 folds for each of 50 candidates, totalling 500 fits
 </pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3fb0606d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="8.-T%E1%BA%A1o-ra-m%E1%BB%99t-voting-model-d%C3%B9ng-Voting-Ensemble">8. Tạo ra một voting model dùng Voting Ensemble<a class="anchor-link" href="#8.-T%E1%BA%A1o-ra-m%E1%BB%99t-voting-model-d%C3%B9ng-Voting-Ensemble">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=08255a26">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">base_learners</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">best_models</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">best_models</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span> <span class="c1"># model tối ưu</span>
+
+<span class="n">voting_model</span> <span class="o">=</span> <span class="n">VotingClassifier</span><span class="p">(</span>
+    <span class="n">estimators</span><span class="o">=</span><span class="n">base_learners</span><span class="p">,</span>
+    <span class="n">voting</span><span class="o">=</span><span class="s1">'soft'</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8106,7 +8108,7 @@ Decision Tree Average Results:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="8.-Ki%E1%BB%83m-tra-hi%E1%BB%87u-su%E1%BA%A5t-model-tr%C3%AAn-t%E1%BA%ADp-test.">8. Kiểm tra hiệu suất model trên tập test.<a class="anchor-link" href="#8.-Ki%E1%BB%83m-tra-hi%E1%BB%87u-su%E1%BA%A5t-model-tr%C3%AAn-t%E1%BA%ADp-test.">¶</a></h2>
+<h2 id="9.-Ki%E1%BB%83m-tra-hi%E1%BB%87u-su%E1%BA%A5t-voting-model-tr%C3%AAn-t%E1%BA%ADp-test.">9. Kiểm tra hiệu suất voting model trên tập test.<a class="anchor-link" href="#9.-Ki%E1%BB%83m-tra-hi%E1%BB%87u-su%E1%BA%A5t-voting-model-tr%C3%AAn-t%E1%BA%ADp-test.">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8115,24 +8117,21 @@ Decision Tree Average Results:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [141]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>    
-    <span class="n">y_prob</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">voting_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">voting_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>    
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">voting_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"-------------</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">------------"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Predicted values (first 10):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Predicted values (first 10):"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Classification Report:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Classification Report:"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Confusion Matrix:"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Confudsion Matrix:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8145,96 +8144,23 @@ Decision Tree Average Results:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>-------------Logistic Regression------------
-
-Predicted values (first 10):
-[1, 1, 0, 1, 0, 0, 1, 0, 1, 0]
-
-Classification Report:
-              precision    recall  f1-score   support
-
-           0       0.90      0.74      0.81        76
-           1       0.63      0.85      0.72        40
-
-    accuracy                           0.78       116
-   macro avg       0.77      0.79      0.77       116
-weighted avg       0.81      0.78      0.78       116
-
-Confusion Matrix:
-[[56 20]
- [ 6 34]]
--------------Random Forest------------
-
+<pre>
 Predicted values (first 10):
 [1, 0, 0, 0, 0, 0, 1, 0, 1, 0]
 
 Classification Report:
               precision    recall  f1-score   support
 
-           0       0.85      0.76      0.81        76
-           1       0.62      0.75      0.68        40
+           0       0.81      0.87      0.84        76
+           1       0.71      0.62      0.67        40
 
-    accuracy                           0.76       116
-   macro avg       0.74      0.76      0.74       116
-weighted avg       0.77      0.76      0.76       116
+    accuracy                           0.78       116
+   macro avg       0.76      0.75      0.75       116
+weighted avg       0.78      0.78      0.78       116
 
-Confusion Matrix:
-[[58 18]
- [10 30]]
--------------SVC------------
-
-Predicted values (first 10):
-[1, 1, 0, 1, 0, 0, 1, 0, 1, 0]
-
-Classification Report:
-              precision    recall  f1-score   support
-
-           0       0.88      0.75      0.81        76
-           1       0.63      0.80      0.70        40
-
-    accuracy                           0.77       116
-   macro avg       0.75      0.78      0.76       116
-weighted avg       0.79      0.77      0.77       116
-
-Confusion Matrix:
-[[57 19]
- [ 8 32]]
--------------K-Neighbours------------
-
-Predicted values (first 10):
-[1, 1, 0, 1, 0, 0, 1, 0, 1, 0]
-
-Classification Report:
-              precision    recall  f1-score   support
-
-           0       0.82      0.82      0.82        76
-           1       0.65      0.65      0.65        40
-
-    accuracy                           0.76       116
-   macro avg       0.73      0.73      0.73       116
-weighted avg       0.76      0.76      0.76       116
-
-Confusion Matrix:
-[[62 14]
- [14 26]]
--------------Decision Tree------------
-
-Predicted values (first 10):
-[1, 0, 0, 0, 0, 0, 1, 0, 0, 0]
-
-Classification Report:
-              precision    recall  f1-score   support
-
-           0       0.78      0.87      0.82        76
-           1       0.68      0.53      0.59        40
-
-    accuracy                           0.75       116
-   macro avg       0.73      0.70      0.71       116
-weighted avg       0.74      0.75      0.74       116
-
-Confusion Matrix:
+Confudsion Matrix:
 [[66 10]
- [19 21]]
+ [15 25]]
 </pre>
 </div>
 </div>
@@ -8247,7 +8173,7 @@ Confusion Matrix:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="9.-L%C6%B0u-file-d%C6%B0%E1%BB%9Bi-d%E1%BA%A1ng-HTML.">9. Lưu file dưới dạng HTML.<a class="anchor-link" href="#9.-L%C6%B0u-file-d%C6%B0%E1%BB%9Bi-d%E1%BA%A1ng-HTML.">¶</a></h2>
+<h2 id="10.-L%C6%B0u-file-d%C6%B0%E1%BB%9Bi-d%E1%BA%A1ng-HTML.">10. Lưu file dưới dạng HTML.<a class="anchor-link" href="#10.-L%C6%B0u-file-d%C6%B0%E1%BB%9Bi-d%E1%BA%A1ng-HTML.">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8256,14 +8182,14 @@ Confusion Matrix:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [142]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nbformat</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nbconvert</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTMLExporter</span>
 
 <span class="c1"># load notebook</span>
-<span class="n">nb</span> <span class="o">=</span> <span class="n">nbformat</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">"model.ipynb"</span><span class="p">,</span> <span class="n">as_version</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="n">nbformat</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">"model4.ipynb"</span><span class="p">,</span> <span class="n">as_version</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="c1"># tạo exporter</span>
 <span class="n">html_exporter</span> <span class="o">=</span> <span class="n">HTMLExporter</span><span class="p">()</span>
@@ -8272,7 +8198,7 @@ Confusion Matrix:
 <span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">resources</span><span class="p">)</span> <span class="o">=</span> <span class="n">html_exporter</span><span class="o">.</span><span class="n">from_notebook_node</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
 
 <span class="c1"># ghi file HTML</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"../exps/model1/model2.html"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"../exps/model1/model_n.html"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
 </pre></div>
 </div>
