@@ -1,0 +1,40 @@
+Challenge1/
+├── data/                  # Lưu dữ liệu gốc và trung gian
+│   ├── raw/               # Dữ liệu gốc từ Kaggle (không chỉnh sửa)
+│   │   ├── train.csv
+│   │   ├── test.csv
+│   │   └── gender_submission.csv  # File mẫu submission từ Kaggle
+│   ├── processed/         # Dữ liệu sau preprocessing (CSV hoặc pickle)
+│   │   ├── train_processed.csv
+│   │   └── test_processed.csv
+│   └── interim/           # Dữ liệu trung gian (nếu cần, ví dụ sau EDA)
+│       ├── train_eda.csv
+│       └── test_eda.csv
+├── eda/                   # Phân tích dữ liệu (Exploratory Data Analysis)
+│   ├── eda.ipynb          # Notebook chính: load data, visualize, check missing/outliers
+│   ├── visualizations/    # Lưu hình ảnh output (nếu export từ notebook)
+│   │   └── (các file .png như histogram_age.png)
+│   └── eda_report.md      # Báo cáo tóm tắt EDA (optional, dùng Markdown)
+├── preprocessing/         # Tiền xử lý dữ liệu
+│   ├── preprocessing.ipynb  # Notebook: imputation, encoding, feature engineering, scaling
+│   └── utils.py           # Script hỗ trợ (nếu cần, ví dụ hàm custom imputation)
+├── models/                # Huấn luyện và đánh giá mô hình
+│   ├── train_model.ipynb  # Notebook: split data, train models (SVC, RF,...), evaluate
+│   ├── predict.ipynb      # Notebook: load model tốt nhất, predict trên test, tạo submission.csv
+│   ├── saved_models/      # Lưu model đã train (dùng joblib hoặc pickle)
+│   │   └── best_svc_model.pkl
+│   └── metrics/           # Lưu kết quả đánh giá (CSV hoặc JSON)
+│       └── evaluation_results.csv  # Accuracy, F1, ROC-AUC của các model
+├── exps/
+│   ├── notebooks/         # Lưu notebook của từng experiment
+│   │   └── experiment_<id>.ipynb
+│   ├── configs/           # Config params cho mỗi experiment
+│   │   └── params_<id>.yaml
+│   ├── logs/              # Log kết quả (text hoặc MLflow)
+│   │   └── log_<id>.txt
+│   ├── saved_models/      # Lưu model của mỗi experiment
+│   │   └── model_<id>.pkl
+│   └── submissions/       # Submission của mỗi experiment
+│       └── submission_<id>.csv
+├── submission.csv         # File kết quả cuối cùng để submit lên Kaggle
+└──README.md              # Hướng dẫn dự án: cách chạy, cấu trúc, kết quả
