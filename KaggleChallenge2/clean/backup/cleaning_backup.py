@@ -105,7 +105,7 @@
 
 # ### 2.1. Import các thư viện cần thiết.
 
-# In[703]:
+# In[856]:
 
 
 # Load libraries
@@ -122,7 +122,7 @@ pd.set_option('display.max_columns', 50) # Số cột tối đa có thể hiển
 
 # ### 2.2. Lấy dữ liệu từ dataset.
 
-# In[704]:
+# In[857]:
 
 
 train_data = pd.read_csv("../data/train.csv", keep_default_na=False,# chỉ mã hóa NA thành null, còn None giữ nguyên
@@ -133,13 +133,13 @@ test_data = pd.read_csv("../data/test.csv", keep_default_na=False,
 
 # ### 2.3. Kiểm tra dữ liệu dataset.
 
-# In[705]:
+# In[858]:
 
 
 train_data.head()
 
 
-# In[706]:
+# In[859]:
 
 
 test_data.head()
@@ -154,37 +154,37 @@ test_data.head()
 # + Kiểu dữ liệu của từng cột
 # + Thông tin chung về dữ liệu
 
-# In[707]:
+# In[860]:
 
 
 train_data.info()
 
 
-# In[708]:
+# In[861]:
 
 
 test_data.info()
 
 
-# In[709]:
+# In[862]:
 
 
 train_data.dtypes.value_counts()
 
 
-# In[710]:
+# In[863]:
 
 
 test_data.dtypes.value_counts()
 
 
-# In[711]:
+# In[864]:
 
 
 train_data.describe()
 
 
-# In[712]:
+# In[865]:
 
 
 test_data.describe()
@@ -202,19 +202,19 @@ test_data.describe()
 # + Dữ liệu có bị trùng lặp không?
 # + Dữ liệu có tồn tại giá trị Null không?
 
-# In[713]:
+# In[866]:
 
 
 train_data.isnull().sum().sort_values(ascending=False).head(40)
 
 
-# In[714]:
+# In[867]:
 
 
 test_data.isnull().sum().sort_values(ascending=False).head(40)
 
 
-# In[715]:
+# In[868]:
 
 
 # In ra những cột bị null ở test nhưng không bị null ở train.
@@ -230,7 +230,7 @@ for col in cols_null_in_test_not_in_train:
 print(f"Danh sách có {len(cols_null_in_test_not_in_train)} dòng.")
 
 
-# In[716]:
+# In[869]:
 
 
 # In ra những cột bị null ở train nhưng không bị null ở test.
@@ -245,25 +245,25 @@ for col in cols_null_in_train_not_in_test:
     print(f"{col}: {train_data[col].isnull().sum()} giá trị null trong train nhưng 0 ở test")
 
 
-# In[717]:
+# In[870]:
 
 
 print("Số cột null ở train: ", (train_data.isnull().sum() > 0).sum()) # Đếm số cột chứa giá trị null
 
 
-# In[718]:
+# In[871]:
 
 
 print("Số cột null ở test: ", (test_data.isnull().sum() > 0).sum())
 
 
-# In[719]:
+# In[872]:
 
 
 print("Số dòng trùng lặp trong train: ", train_data.duplicated().sum())
 
 
-# In[720]:
+# In[873]:
 
 
 print("Số dòng trùng lặp trong test: " , test_data.duplicated().sum())
@@ -283,7 +283,7 @@ print("Số dòng trùng lặp trong test: " , test_data.duplicated().sum())
 
 # #### **3) Tần số xuất hiện (Distribution) trên dữ liệu phân lớp (SalePrice)**
 
-# In[721]:
+# In[874]:
 
 
 plt.figure(figsize=(10,6))
@@ -295,7 +295,7 @@ plt.savefig("dist_hist_sale_price.png")
 plt.show()
 
 
-# In[722]:
+# In[875]:
 
 
 plt.figure(figsize=(10,6))
@@ -320,7 +320,7 @@ plt.show()
 # ##### **1) Xử lý các cột có số lượng giá trị null rất lớn (trên 1000 dòng)**
 # Theo dữ liệu mô tả, giá trị NA trong các cột PoolQC, MiscFeature, Alley, Fence được hiểu là "không có" nhưng bị mã hóa thành null, do đó cần chuyển về  thành dạng chuỗi.
 
-# In[723]:
+# In[876]:
 
 
 cols_to_modify = ["PoolQC", "MiscFeature", "Alley", "Fence"]
@@ -331,7 +331,7 @@ test_data[cols_to_modify] = test_data[cols_to_modify].fillna("None")
 # ##### **2) Xử lý các cột có số lượng giá trị null ít (dưới 16 dòng)**
 # Điền vào giá trị thiếu bằng median của cột tương ứng đối với dữ liệu số, bằng giá trị phổ biến nhất đối với dữ liệu phi số. Thay đổi 
 
-# In[724]:
+# In[877]:
 
 
 replaced_cols = [
@@ -359,7 +359,7 @@ print("Train data: ")
 print(train_data[replaced_cols].dtypes)
 
 
-# In[725]:
+# In[878]:
 
 
 replaced_numerical_cols = train_data[replaced_cols].select_dtypes(include=["int64", "float64"]).columns
@@ -372,7 +372,7 @@ print("Cột phi số: ", replaced_object_cols)
 # **Nhận xét**:
 # + Các cột phi số bị thiếu không nằm trong các cột dùng NA cho "không có" (Alley, BsmtQual, BsmtCond, BsmtExposure, BsmtFinType1, BsmtFinType2, FireplaceQu, GarageType, GarageQual, GarageFinish, GarageCond, PoolQC, Fence, MiscFeature), như vậy các cột này có khả năng bị thiếu.
 
-# In[726]:
+# In[879]:
 
 
 # Điền vào giá trị null là median của cột tương ứng.
@@ -385,14 +385,14 @@ for col in replaced_object_cols:
     test_data[col] = test_data[col].fillna(test_data[col].mode()[0])
 
 
-# In[727]:
+# In[880]:
 
 
 # Kiểm tra số dòng null theo cột
 train_data.isnull().sum().sort_values(ascending=False).head(20)
 
 
-# In[728]:
+# In[881]:
 
 
 # Kiểm tra số dòng null theo cột
@@ -402,32 +402,32 @@ test_data.isnull().sum().sort_values(ascending=False).head(20)
 # ##### **3) Xử lý các cột có số lượng giá trị null tương đối ít (37 - 81 dòng)** 
 # Điền vào giá trị giá trị phổ biến nhất (cho giá trị phi số) của cột đó theo phân loại cột Neighborhood. Dùng cột Neighborhood để phân loại do cột này có nhiều loại giá trị nhất (25 loại giá trị) và không chứa giá trị null trên cả train và test, giúp cho giá trị được điền vào ít bị trùng lặp. Cột GarageYrBlt là cột thứ tự thời gian nên phải xử lý bằng cách điền vào giá trị phổ biến nhất theo phân loại cột Neighborhood, xử lý cột GarageYrBlt trên test có giá trị max bất hợp lý (2207).
 
-# In[729]:
+# In[882]:
 
 
 print("Phân phối giá trị của cột Neighborhood trong train: ", set(train_data["Neighborhood"].unique()))
 print("Phân phối giá trị của cột Neighborhood trong test: ", set(test_data["Neighborhood"].unique()))
 
 
-# In[730]:
+# In[883]:
 
 
 print(f"Phạm vi của cột GarageYrBlt: {test_data["GarageYrBlt"].min()} {test_data["GarageYrBlt"].max()}")
 
 
-# In[731]:
+# In[884]:
 
 
 test_data.loc[test_data["GarageYrBlt"] > 2015, "GarageYrBlt"] = np.nan # Chuyển những giá trị năm > 2015 thành null.
 
 
-# In[ ]:
+# In[885]:
 
 
 print(f"Phạm vi của cột GarageYrBlt: {test_data["GarageYrBlt"].min()} {test_data["GarageYrBlt"].max()}") # Kiểm tra
 
 
-# In[733]:
+# In[886]:
 
 
 replaced_cols = [
@@ -448,7 +448,7 @@ print(train_data[replaced_cols].dtypes)
 # **Nhận xét**:
 # + Các cột phi số bị thiếu nằm trong các cột dùng NA cho "không có" (Alley, BsmtQual, BsmtCond, BsmtExposure, BsmtFinType1, BsmtFinType2, FireplaceQu, GarageType, GarageQual, GarageFinish, GarageCond, PoolQC, Fence, MiscFeature), như vậy cần mã hóa các cột phi số này thành dạng chuỗi.
 
-# In[734]:
+# In[887]:
 
 
 # Điền giá trị năm phổ biến nhất vào cột GarageYrBlt phân phối theo Neighborhood
@@ -467,14 +467,14 @@ train_data[replaced_cols] = train_data[replaced_cols].fillna("None")
 test_data[replaced_cols] = test_data[replaced_cols].fillna("None")
 
 
-# In[735]:
+# In[888]:
 
 
 # Kiểm tra số dòng null theo cột
 train_data.isnull().sum().sort_values(ascending=False).head(20)
 
 
-# In[736]:
+# In[889]:
 
 
 # Kiểm tra số dòng null theo cột
@@ -483,7 +483,7 @@ test_data.isnull().sum().sort_values(ascending=False).head(20)
 
 # ##### **4) Xử lý các cột có số lượng giá trị null khá lớn (227 - 730 dòng)**
 
-# In[737]:
+# In[890]:
 
 
 replaced_cols = [
@@ -495,7 +495,7 @@ print("Train data: ")
 print(train_data[replaced_cols].dtypes)
 
 
-# In[738]:
+# In[891]:
 
 
 replaced_numerical_cols = train_data[replaced_cols].select_dtypes(include=["int64", "float64"]).columns
@@ -509,7 +509,7 @@ print("Cột phi số: ", replaced_object_cols)
 # + Cột phi số (FireplaceQu) bị thiếu nằm trong các cột dùng NA cho "không có" (Alley, BsmtQual, BsmtCond, BsmtExposure, BsmtFinType1, BsmtFinType2, FireplaceQu, GarageType, GarageQual, GarageFinish, GarageCond, PoolQC, Fence, MiscFeature), như vậy cần mã hóa các cột phi số này thành dạng chuỗi.
 # + Cột số (LotFrontage) bị thiếu khoảng hơn 200 dòng, có thể điền vào giá trị trung bình của LotFrontage theo cột Neighborhood.
 
-# In[739]:
+# In[892]:
 
 
 # Điền vào giá trị null là median của cột tương ứng phân phối theo Neighborhood.
@@ -528,14 +528,14 @@ train_data[replaced_object_cols] = train_data[replaced_object_cols].fillna("None
 test_data[replaced_object_cols] = test_data[replaced_object_cols].fillna("None")
 
 
-# In[740]:
+# In[893]:
 
 
 # Kiểm tra số dòng null theo cột
 train_data.isnull().sum().sort_values(ascending=False).head(20)
 
 
-# In[741]:
+# In[894]:
 
 
 # Kiểm tra số dòng null theo cột
@@ -544,7 +544,7 @@ test_data.isnull().sum().sort_values(ascending=False).head(20)
 
 # ##### **5) Kiểm tra số lượng cột chứa giá trị null sau khi xử lý**
 
-# In[742]:
+# In[895]:
 
 
 print("Số cột null trong train: ", train_data.isnull().sum().gt(0).sum())
@@ -557,19 +557,19 @@ print("Số cột null trong test: ", test_data.isnull().sum().gt(0).sum())
 # ### 4.2. Chuyển các cột có kiểu dữ liệu float64 về int64.
 # Dữ liệu số ban đầu chỉ bao gồm các số nguyên, nhưng do một số cột chứa giá trị NA nên pandas mặc định chuyển kiểu dữ liệu cột về dạng float64.
 
-# In[743]:
+# In[896]:
 
 
 train_data.dtypes.value_counts()
 
 
-# In[744]:
+# In[897]:
 
 
 test_data.dtypes.value_counts()
 
 
-# In[745]:
+# In[898]:
 
 
 # Chuyển từ float64 => int64
@@ -577,13 +577,13 @@ train_data[train_data.select_dtypes('float64').columns] = train_data.select_dtyp
 test_data[test_data.select_dtypes('float64').columns] = test_data.select_dtypes('float64').round().astype('int64')
 
 
-# In[746]:
+# In[899]:
 
 
 train_data.dtypes.value_counts()
 
 
-# In[747]:
+# In[900]:
 
 
 test_data.dtypes.value_counts()
@@ -592,9 +592,33 @@ test_data.dtypes.value_counts()
 # **Nhận xét:**
 # Không còn cột float64, tất cả được chuyển về kiểu int64.
 
+# ### 4.3. Xóa cột Id
+# Cột này chỉ đánh số thứ tự cho việc định danh, không có ý nghĩa cho việc phân tích.
+
+# In[901]:
+
+
+print("Số cột trong train trước khi xóa: ", len(train_data.columns))
+print("Số cột trong test trước khi xóa: ", len(test_data.columns))
+
+
+# In[902]:
+
+
+train_data = train_data.drop(columns=["Id"])
+test_data = test_data.drop(columns=["Id"])
+
+
+# In[903]:
+
+
+print("Số cột trong train sau khi xóa: ", len(train_data.columns))
+print("Số cột trong test sau khi xóa: ", len(test_data.columns))
+
+
 # ## 5. Xuất dữ liệu dọn dẹp của train và test thành file .csv và .pkl
 
-# In[748]:
+# In[904]:
 
 
 train_data.to_csv("./data/train_clean.csv", index=False)       # lưu csv
@@ -607,13 +631,13 @@ test_data.to_pickle("./data/test_clean.pkl")  # lưu pkl
 # ## 6. Xuất các file backup
 # Lưu thành file preprocessing_backup.py và file preprocessing_backup.ipynb trong thư mục backup.
 
-# In[749]:
+# In[ ]:
 
 
 get_ipython().system('jupyter nbconvert --to script cleaning.ipynb --output ./backup/cleaning_backup')
 
 
-# In[750]:
+# In[ ]:
 
 
 get_ipython().system('copy cleaning.ipynb .\\backup\\cleaning_backup.ipynb')
