@@ -7537,7 +7537,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -7558,13 +7558,13 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="1.-M%E1%BB%A5c-ti%C3%AAu-ti%E1%BB%81n-x%E1%BB%AD-l%C3%BD">1. Mục tiêu tiền xử lý<a class="anchor-link" href="#1.-M%E1%BB%A5c-ti%C3%AAu-ti%E1%BB%81n-x%E1%BB%AD-l%C3%BD">¶</a></h2><ul>
 <li><strong>Mô tả</strong>:<ul>
-<li>Xử lý missing values (Age, Embarked, Cabin).</li>
-<li>Encoding categorical features (Sex, Embarked).</li>
-<li>Feature engineering (tạo FamilySize từ SibSp + Parch).</li>
-<li>Scaling numerical features (Age, Fare) nếu cần.</li>
+<li>Xử lý missing values (Age, Embarked, Cabin, Fare).</li>
+<li>Feature engineering <strong>nâng cao</strong>: Tạo <strong>Title</strong> từ Name và <strong>FamilySize</strong>.</li>
+<li>Encoding categorical features (Sex, Embarked, Title).</li>
+<li>Scaling numerical features (Age, Fare).</li>
 </ul>
 </li>
-<li><strong>Dữ liệu vào</strong>: Từ interim sau EDA.</li>
+<li><strong>Dữ liệu vào</strong>: Từ interim (sau EDA).</li>
 <li><strong>Kết quả</strong>: Dữ liệu sạch, lưu vào processed.</li>
 </ul>
 </div>
@@ -7577,7 +7577,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="2.-Load-d%E1%BB%AF-li%E1%BB%87u">2. Load dữ liệu<a class="anchor-link" href="#2.-Load-d%E1%BB%AF-li%E1%BB%87u">¶</a></h2>
+<h2 id="2.-Load-d%E1%BB%AF-li%E1%BB%87u-v%C3%A0-Chu%E1%BA%A9n-b%E1%BB%8B">2. Load dữ liệu và Chuẩn bị<a class="anchor-link" href="#2.-Load-d%E1%BB%AF-li%E1%BB%87u-v%C3%A0-Chu%E1%BA%A9n-b%E1%BB%8B">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7586,7 +7586,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Load data gốc (train có Survived, test không có)</span>
@@ -7614,7 +7614,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="3.-Feature-engineering:-Title">3. Feature engineering: Title<a class="anchor-link" href="#3.-Feature-engineering:-Title">¶</a></h2><ul>
+<h2 id="3.-Feature-engineering:-Title-(N%C3%A2ng-c%E1%BA%A5p)">3. Feature engineering: Title (Nâng cấp)<a class="anchor-link" href="#3.-Feature-engineering:-Title-(N%C3%A2ng-c%E1%BA%A5p)">¶</a></h2><ul>
 <li>Trích Mr, Mrs, Miss,... từ Name.</li>
 <li>Nhóm Title hiếm và Encode thành số.</li>
 </ul>
@@ -7626,7 +7626,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Trích Title</span>
@@ -7669,7 +7669,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Fill Age và Fare bằng mean (sử dụng SimpleImputer)</span>
@@ -7731,7 +7731,7 @@ dtype: int64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Encoding Sex</span>
@@ -7786,7 +7786,7 @@ DataFrame sau encoding:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
@@ -7838,7 +7838,7 @@ DataFrame sau scaling:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Lấy kích thước tập train gốc</span>
@@ -7891,7 +7891,7 @@ DataFrame sau scaling:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cách an toàn, đa nền tảng để xóa HTML hiện có và export notebook sang HTML</span>
