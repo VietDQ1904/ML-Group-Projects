@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label=<Glucose &le; 127.5<br/>gini = 0.453<br/>samples = 614<br/>value = [401, 213]<br/>class = No Diabetes>, fillcolor="#f3c4a2"] ;
+1 [label=<Age &le; 28.5<br/>gini = 0.314<br/>samples = 390<br/>value = [314, 76]<br/>class = No Diabetes>, fillcolor="#eb9f69"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label=<BMI &le; 30.95<br/>gini = 0.142<br/>samples = 221<br/>value = [204, 17]<br/>class = No Diabetes>, fillcolor="#e78c49"] ;
+1 -> 2 ;
+3 [label=<gini = 0.017<br/>samples = 119<br/>value = [118, 1]<br/>class = No Diabetes>, fillcolor="#e5823b"] ;
+2 -> 3 ;
+4 [label=<gini = 0.265<br/>samples = 102<br/>value = [86, 16]<br/>class = No Diabetes>, fillcolor="#ea985e"] ;
+2 -> 4 ;
+5 [label=<BMI &le; 26.35<br/>gini = 0.454<br/>samples = 169<br/>value = [110, 59]<br/>class = No Diabetes>, fillcolor="#f3c5a3"] ;
+1 -> 5 ;
+6 [label=<gini = 0.0<br/>samples = 33<br/>value = [33, 0]<br/>class = No Diabetes>, fillcolor="#e58139"] ;
+5 -> 6 ;
+7 [label=<gini = 0.491<br/>samples = 136<br/>value = [77, 59]<br/>class = No Diabetes>, fillcolor="#f9e2d1"] ;
+5 -> 7 ;
+8 [label=<BMI &le; 29.95<br/>gini = 0.475<br/>samples = 224<br/>value = [87, 137]<br/>class = Diabetes>, fillcolor="#b7dbf6"] ;
+0 -> 8 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+9 [label=<Glucose &le; 146.5<br/>gini = 0.433<br/>samples = 60<br/>value = [41, 19]<br/>class = No Diabetes>, fillcolor="#f1bb95"] ;
+8 -> 9 ;
+10 [label=<gini = 0.245<br/>samples = 35<br/>value = [30, 5]<br/>class = No Diabetes>, fillcolor="#e9965a"] ;
+9 -> 10 ;
+11 [label=<gini = 0.493<br/>samples = 25<br/>value = [11.0, 14.0]<br/>class = Diabetes>, fillcolor="#d5eaf9"] ;
+9 -> 11 ;
+12 [label=<Glucose &le; 165.5<br/>gini = 0.404<br/>samples = 164<br/>value = [46.0, 118.0]<br/>class = Diabetes>, fillcolor="#86c3ef"] ;
+8 -> 12 ;
+13 [label=<gini = 0.469<br/>samples = 109<br/>value = [41, 68]<br/>class = Diabetes>, fillcolor="#b0d8f5"] ;
+12 -> 13 ;
+14 [label=<gini = 0.165<br/>samples = 55<br/>value = [5, 50]<br/>class = Diabetes>, fillcolor="#4da7e8"] ;
+12 -> 14 ;
+}
