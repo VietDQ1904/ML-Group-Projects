@@ -19,7 +19,7 @@
 
 # ### 2.1. Import các thư viện cần thiết
 
-# In[1405]:
+# In[151]:
 
 
 # Load libraries
@@ -42,7 +42,7 @@ pd.set_option('display.max_columns', 200)
 # ### 2.2. Đọc dataset train và test từ dataset đã xử lý trong phần dọn dẹp dữ liệu
 # Đọc các file .pkl trong thư mục /clean/data
 
-# In[1406]:
+# In[152]:
 
 
 train_data = pd.DataFrame(pd.read_pickle("../clean/data/train_clean.pkl"))
@@ -51,32 +51,32 @@ test_data = pd.DataFrame(pd.read_pickle("../clean/data/test_clean.pkl"))
 
 # ### 2.3. Kiểm tra dữ liệu dataset train và test
 
-# In[1407]:
+# In[153]:
 
 
 train_data.head()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 
-# In[1408]:
+# In[154]:
 
 
 test_data.head()
 
 
-# In[1409]:
+# In[155]:
 
 
 print("Số cột null trong train: ", train_data.isnull().sum().gt(0).sum())
 print("Số cột null trong test: ", test_data.isnull().sum().gt(0).sum())
 
 
-# In[1410]:
+# In[156]:
 
 
 train_data.dtypes.value_counts()
 
 
-# In[1411]:
+# In[157]:
 
 
 test_data.dtypes.value_counts()
@@ -84,7 +84,7 @@ test_data.dtypes.value_counts()
 
 # ## 3. Tiền xử lý dữ liệu
 
-# In[1412]:
+# In[158]:
 
 
 train_y = train_data["SalePrice"]  # tách biến mục tiêu ra khỏi tập train
@@ -95,7 +95,7 @@ train_data = train_data.drop(columns="SalePrice")
 # ### 3.1. Xử lý biến mục tiêu
 # Dùng log transform của Numpy để xử lý biến mục tiêu do dữ liệu bị lệch phải.
 
-# In[1413]:
+# In[159]:
 
 
 train_y = np.log1p(train_y)
@@ -105,7 +105,7 @@ train_y = np.log1p(train_y)
 
 # Dùng log transform để xử lý các giá trị lớn hơn 0 (do 0 được hiểu là không có).
 
-# In[1414]:
+# In[160]:
 
 
 processed_cols = [
@@ -124,7 +124,7 @@ for col in processed_cols:
 
 # ### 3.3. Xử lý các cột phi số
 
-# In[1415]:
+# In[161]:
 
 
 train_data.select_dtypes(include=["object"]).columns
@@ -132,7 +132,7 @@ train_data.select_dtypes(include=["object"]).columns
 
 # #### **1. Các cột có tính chất phân loại được xử lý bằng one hot encoding.**
 
-# In[1416]:
+# In[162]:
 
 
 categorical_data = ["MSZoning", "Street", "PavedDrive", "Alley", "LotConfig", "Utilities", "Neighborhood",
@@ -164,7 +164,7 @@ test_data = pd.concat([test_data[numerical_data], test_cat], axis=1)
 
 # #### **2. Các cột có tính chất thứ tự được map lại theo thứ tự.**
 
-# In[1417]:
+# In[163]:
 
 
 for df in [train_data, test_data]:
@@ -194,9 +194,9 @@ for df in [train_data, test_data]:
     df["PoolQC"] = df["PoolQC"].map({"Ex": 3, "Gd": 2, "Fa": 1, "None": 0})
 
 
-# #### **3. Xử lý các cột rời rạc có tính chất phân loại (YrSold, MoSold, MSSubClass)**
+# ### 3.4. Xử lý các cột rời rạc có tính chất phân loại (YrSold, MoSold, MSSubClass)
 
-# In[1418]:
+# In[164]:
 
 
 processed_cols = ["MSSubClass", "YrSold"]
@@ -226,38 +226,42 @@ for df in [train_data, test_data]:
 	df['MoSold_cos'] = np.cos(2 * np.pi * df['MoSold'] / 12)
 
 
-# #### **4. Kiểm tra dữ liệu tập train và test sau khi xử lý**
+# ### 3.5. Kiểm tra dữ liệu tập train và test sau khi xử lý
 
-# In[1419]:
+# In[165]:
 
 
 train_data.info()
 
 
-# In[1420]:
+# In[166]:
 
 
 test_data.info()
 
 
-# In[1421]:
+# In[167]:
 
 
 train_data.head()
 
 
-# In[1422]:
+# In[168]:
 
 
 test_data.head()
 
 
-# ### 3.4. Chuẩn hóa dữ liệu
+# ### 3.6. Chuẩn hóa dữ liệu
 
 # #### **1. Chuẩn hóa biến mục tiêu bằng RobustScaler**
-# Dùng RobustScaler để xử lý khi dữ liệu có các giá trị ngoại lai rất lớn.
+# Dùng RobustScaler để xử lý khi dữ liệu có các giá trị ngoại lai rất lớn. Dữ liệu được scale theo IQR, là khoảng cách giữa tứ phân vị thứ nhất ($Q_1$ hay phân vị 25%) và tứ phân vị thứ ba ($Q_3$ hay phân vị 75%). Công thức scale là:
+# $$ 
+# \\ x_{scaled} = \frac{x - \text{Median}(x)}{\text{IQR}(x)}
+# $$
+# Trong đó: $\text{IQR}(x) = Q_3 - Q_1$.
 
-# In[1423]:
+# In[169]:
 
 
 scaler = RobustScaler()
@@ -267,7 +271,7 @@ train_y = scaler.fit_transform(train_y.values.reshape(-1, 1))
 # #### **2. Chuẩn hóa các cột liên tục bằng RobustScaler**
 # Dùng RobustScaler để xử lý khi dữ liệu có các giá trị ngoại lai rất lớn, không scale với giá trị 0.
 
-# In[1424]:
+# In[ ]:
 
 
 processed_cols = [
@@ -293,9 +297,16 @@ for col in processed_cols:
 
 
 # #### **3. Chuẩn hóa các cột YearBuilt, YearRemodAdd, GarageYrBlt bằng MinMax Scaler**
-# Scale dữ liệu các cột này về khoảng [0, 1] và giữ lại quan hệ thứ tự.
+# Scale dữ liệu các cột này về khoảng [0, 1] và giữ lại quan hệ thứ tự. Quá trình scale này được thực hiện theo công thức sau:
+# $$
+# X_{\text{scaled}} = \frac{X - X_{\text{min}}}{X_{\text{max}} - X_{\text{min}}}
+# $$
+# Trong đó:
+# - $X$ là giá trị gốc của một điểm dữ liệu.
+# - $X_{\text{min}}$ là giá trị nhỏ nhất (minimum) của đặc trưng đó trong tập huấn luyện.
+# - $X_{\text{max}}$ là giá trị lớn nhất (maximum) của đặc trưng đó trong tập huấn luyện.
 
-# In[1425]:
+# In[ ]:
 
 
 time_cols = ["YearBuilt", "YearRemodAdd", "GarageYrBlt"]
@@ -306,25 +317,26 @@ train_data[time_cols] = scaler.fit_transform(train_data[time_cols])
 test_data[time_cols] = scaler.transform(test_data[time_cols])
 
 
-# ### 3.5. Kỹ thuật đặc trưng
+# ### 3.7. Kỹ thuật đặc trưng
 
-# ##### **1. Thêm các cột tổng diện tích sử dụng (TotalSF), tổng số phòng (TotalRooms)**
+# ##### **1. Thêm các cột tổng diện tích sử dụng (TotalSF), tổng số phòng (TotalRooms), tổng số phòng tắm (TotalBath)**
 
-# In[1426]:
+# In[ ]:
 
 
 for df in [train_data, test_data]:
 	df['TotalSF'] = df['TotalBsmtSF'] + df['1stFlrSF'] + df['2ndFlrSF']
 	df['TotalRooms'] = df['TotRmsAbvGrd'] + df['FullBath'] + df['HalfBath']
+	df["TotalBath"] = df["FullBath"] + (0.5 * df["HalfBath"]) + df["BsmtFullBath"] + (0.5 * df["BsmtHalfBath"])
 
 
 # #### **2. Tạo cột nhị phân (0, 1) cho các cột phân bố liên tục có nhiều dữ liệu 0.**
 
-# In[1427]:
+# In[ ]:
 
 
 processed_cols = ["MasVnrArea", "BsmtFinSF1", "BsmtFinSF2", "2ndFlrSF", "TotalBsmtSF", "LowQualFinSF", "WoodDeckSF", 
-                  "OpenPorchSF", "EnclosedPorch", "3SsnPorch", "ScreenPorch", "PoolArea", "MiscVal"]
+                  "OpenPorchSF", "EnclosedPorch", "3SsnPorch", "ScreenPorch", "PoolArea", "MiscVal", "GarageArea"]
 
 for col in processed_cols:
     # Tạo tên cột nhị phân mới
@@ -337,25 +349,25 @@ for col in processed_cols:
 
 # #### **3. Kiểm tra dữ liệu tập train và test.**
 
-# In[1428]:
+# In[ ]:
 
 
 train_data.info()
 
 
-# In[1429]:
+# In[ ]:
 
 
 test_data.info()
 
 
-# In[1430]:
+# In[ ]:
 
 
 train_data.head()
 
 
-# In[1431]:
+# In[ ]:
 
 
 test_data.head()
@@ -363,7 +375,7 @@ test_data.head()
 
 # ## 4. Xuất dữ liệu dọn dẹp của train và test thành file .pkl
 
-# In[1432]:
+# In[ ]:
 
 
 train_data.to_pickle("./data/train_processed.pkl")  # lưu pkl
