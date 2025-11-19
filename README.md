@@ -114,17 +114,17 @@ ML-Group-Projects
 ```
 
 ## **Các công nghệ sử dụng:**
-Tên công nghệ             Phiên bản
-catboost                  1.2.8
-conda                     25.7.0
-jupyter                   1.1.1
-lightgbm                  4.6.0
-nltk                      3.9.1
-numpy                     2.1.3
-pandas                    2.3.2
-scikit-learn              1.7.2
-scipy                     1.15.3
-xgboost                   3.0.1
+- python(3.13.5)
+- catboost(1.2.8)
+- conda(25.7.0)
+- jupyter(1.1.1)
+- lightgbm(4.6.0)
+- nltk(3.9.1)
+- numpy(2.1.3)
+- pandas(2.3.2)
+- scikit-learn(1.7.2)
+- scipy(1.15.3)
+- xgboost(3.0.1)
 
 
 
