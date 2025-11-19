@@ -154,7 +154,7 @@ XGBRegressor, SVM, CatBoost và LightGBM. Dùng Linear Regression làm meta mode
 
 - Tham số meta model Linear Regression: n_jobs=-1
 - Tham số K-Fold: 10
-- Tham số random_staet: 42
+- Tham số random_state: 42
 
 ## Kết quả chính thức trên Kaggle
 - Đạt mức điểm 0.11903 tính theo thang điểm RMSE của Kaggle. Kết quả đạt được nằm trong top 5% của bảng xếp hạng các lượt submission trên Kaggle.
